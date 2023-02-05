@@ -15,8 +15,11 @@ int main() {
   server_addr.sin_port = htons(3030);
   server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
   addr_len = sizeof(server_addr);
-  if (connect(fd, (const struct sockaddr *)&server_addr, addr_len))
+  if (connect(fd, (const struct sockaddr *)&server_addr, addr_len)) {
 	perror("connect()");
+	return -1;
+  }
   data_bytes = recv(fd, buf, sizeof(buf), 0);
   printf("[RECV] %.*s\n", int(data_bytes), buf);
+  return 0;
 }
