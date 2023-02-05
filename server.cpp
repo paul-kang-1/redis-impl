@@ -7,6 +7,7 @@
 
 int main() {
   int fd, conn_fd;
+  socklen_t addr_len;
   struct sockaddr_in addr, client_addr;
 
   // obtain socket file descriptor
@@ -28,9 +29,9 @@ int main() {
   if (listen(fd, SOMAXCONN) == -1)
 	perror("listen failed");
   while (true) {
-	socklen_t len{sizeof(client_addr)};
+	addr_len = sizeof(client_addr);
 	// await connection on socket fd,
-	conn_fd = accept(fd, (struct sockaddr *)&client_addr, &len);
+	conn_fd = accept(fd, (struct sockaddr *)&client_addr, &addr_len);
 	if (conn_fd == -1) {
 	  perror("accept failed");
 	  continue;
